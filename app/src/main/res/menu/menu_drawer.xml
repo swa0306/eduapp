@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_home"
+        android:title="Home"
+        android:icon="@drawable/ic_home"/>
+
+    <item
+        android:id="@+id/nav_books"
+        android:title="Books"
+        android:icon="@drawable/ic_book"/>
+
+    <item
+        android:id="@+id/nav_notes"
+        android:title="Notes"
+        android:icon="@drawable/ic_book"/>
+
+    <item
+        android:id="@+id/nav_videos"
+        android:title="Videos"
+        android:icon="@drawable/ic_video"/>
+
+    <item
+        android:id="@+id/nav_mcq"
+        android:title="MCQ Test"
+        android:icon="@drawable/ic_mcq"/>
+
+    <item
+        android:id="@+id/nav_mocktest"
+        android:title="Mock Test"
+        android:icon="@drawable/ic_test"/>
+
+
+    <item
+        android:id="@+id/nav_papers"
+        android:title="Previous Papers"
+        android:icon="@drawable/ic_test"/>
+
+    <item
+        android:id="@+id/nav_doubts"
+        android:title="Doubts"
+        android:icon="@drawable/ic_doubt"/>
+
+    <item
+        android:id="@+id/nav_profile"
+        android:title="Profile"
+        android:icon="@drawable/ic_account"/>
+
+    <item
+        android:id="@+id/nav_settings"
+        android:title="Settings"
+        android:icon="@drawable/ic_settings"/>
+
+    <item
+        android:id="@+id/nav_logout"
+        android:iconTint="#E91E63"
+        android:title="Logout"
+        android:icon="@drawable/ic_logout"/>
+
+
+</menu>
