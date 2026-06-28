@@ -45,4 +45,5 @@ dependencies {
  //   implementation("com.github.barteksc:android-pdf-viewer:3.2.0-beta.1")
    // implementation("com.github.barteksc:android-pdf-viewer:3.2.0-beta.1")
     implementation("com.github.mhiew:android-pdf-viewer:3.2.0-beta.3")
+    implementation("com.google.android.material:material:1.12.0")
 }

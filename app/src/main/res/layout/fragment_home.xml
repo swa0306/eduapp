@@ -23,7 +23,10 @@
             android:layout_height="280dp"
             android:background="@drawable/bg_home_header">
 
-            <ImageView
+            <include
+                layout="@layout/include_toolbar"/>
+
+           <!-- <ImageView
                 android:id="@+id/btnMenu"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
@@ -33,7 +36,7 @@
                 android:tint="@android:color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="UseAppTint" />
+                tools:ignore="UseAppTint" />-->
 
             <ImageView
                 android:id="@+id/imgNotification"
@@ -115,9 +118,9 @@
                     android:textColor="#6B7280"
                     android:layout_marginTop="8dp"/>
 
-                <ProgressBar
+                <com.google.android.material.progressindicator.LinearProgressIndicator
                     android:layout_width="match_parent"
-                    android:layout_height="12dp"
+                    android:layout_height="8dp"
                     android:layout_marginTop="20dp"
                     android:progress="65"/>
 
@@ -146,9 +149,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvCategories"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:layout_marginTop="12dp"/>
+            android:layout_height="250dp"
+            android:nestedScrollingEnabled="false"
+            android:paddingHorizontal="10dp"/>
 
         <!-- RECOMMENDED -->
 

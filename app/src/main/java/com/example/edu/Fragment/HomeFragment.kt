@@ -11,6 +11,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.edu.Fragment.BooksFragment
+import com.example.edu.Fragment.LiveFragment
+import com.example.edu.Fragment.NotesFragment
 import com.example.edu.MainActivity
 import com.example.edu.R
 import com.example.edu.adapters.CategoryAdapter
@@ -23,7 +26,6 @@ class HomeFragment : Fragment() {
     private lateinit var txtBoardInfo: TextView
     private lateinit var rvCategories: RecyclerView
     private lateinit var rvRecommended: RecyclerView
-
     private lateinit var btnMenu: ImageView
 
     override fun onCreateView(
@@ -32,28 +34,20 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val view =
-            inflater.inflate(
-                R.layout.fragment_home,
-                container,
-                false
-            )
+        val view = inflater.inflate(
+            R.layout.fragment_home,
+            container,
+            false
+        )
 
-        txtBoardInfo =
-            view.findViewById(R.id.txtBoardInfo)
-
-        rvCategories =
-            view.findViewById(R.id.rvCategories)
-
-        rvRecommended =
-            view.findViewById(R.id.rvRecommended)
-
+        txtBoardInfo = view.findViewById(R.id.txtBoardInfo)
+        rvCategories = view.findViewById(R.id.rvCategories)
+        rvRecommended = view.findViewById(R.id.rvRecommended)
         btnMenu = view.findViewById(R.id.btnMenu)
 
+        // Drawer Menu
         btnMenu.setOnClickListener {
-
-            (activity as MainActivity).openDrawer()
-
+            (requireActivity() as MainActivity).openDrawer()
         }
 
         loadUserData()
@@ -65,24 +59,16 @@ class HomeFragment : Fragment() {
 
     private fun loadUserData() {
 
-        val pref =
-            requireActivity()
-                .getSharedPreferences(
-                    "EduSphere",
-                    Context.MODE_PRIVATE
-                )
+        val pref = requireActivity().getSharedPreferences(
+            "EduSphere",
+            Context.MODE_PRIVATE
+        )
 
-        val board =
-            pref.getString("board", "")
+        val board = pref.getString("board", "") ?: ""
+        val course = pref.getString("course", "") ?: ""
+        val subject = pref.getString("subject", "") ?: ""
 
-        val course =
-            pref.getString("course", "")
-
-        val subject =
-            pref.getString("subject", "")
-
-        txtBoardInfo.text =
-            "$board | $course | $subject"
+        txtBoardInfo.text = "$board | $course | $subject"
     }
 
     private fun loadCategories() {
@@ -101,8 +87,27 @@ class HomeFragment : Fragment() {
         rvCategories.layoutManager =
             GridLayoutManager(requireContext(), 4)
 
-        rvCategories.adapter =
-            CategoryAdapter(list)
+        rvCategories.adapter = CategoryAdapter(list) { category ->
+
+            when (category.title) {
+
+                "Books" -> replaceFragment(BooksFragment())
+
+                "Notes" -> replaceFragment(NotesFragment())
+
+                "Videos" -> replaceFragment(VideosFragment())
+
+                "MCQ" -> replaceFragment(McqFragment())
+
+                "Papers" -> replaceFragment(PapersFragment())
+
+                "Mock" -> replaceFragment(MockTestFragment())
+
+                "Live" -> replaceFragment(LiveFragment())
+
+                "Doubts" -> replaceFragment(DoubtsFragment())
+            }
+        }
     }
 
     private fun loadRecommended() {
@@ -130,5 +135,14 @@ class HomeFragment : Fragment() {
 
         rvRecommended.adapter =
             RecommendedAdapter(list)
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+
+        requireActivity().supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragmentContainer, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 }

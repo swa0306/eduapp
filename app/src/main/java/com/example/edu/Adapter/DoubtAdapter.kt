@@ -52,5 +52,7 @@ class DoubtAdapter(
 
         holder.txtDescription.text =
             model.description
+
+
     }
 }

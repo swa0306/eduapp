@@ -172,6 +172,15 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="25dp"/>
 
+            <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="go to home "
+                android:id="@+id/ghome"
+            android:textColor="#2196F3"
+            android:layout_gravity="center"
+            android:layout_marginTop="25dp"/>
+
 
         </LinearLayout>
 

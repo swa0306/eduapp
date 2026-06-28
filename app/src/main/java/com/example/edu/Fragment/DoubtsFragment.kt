@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.edu.MainActivity
 import com.example.edu.R
 import com.example.edu.adapters.DoubtAdapter
 import com.example.edu.models.DoubtModel
@@ -21,8 +23,9 @@ class DoubtsFragment : Fragment() {
     private lateinit var btnSubmit: MaterialButton
     private lateinit var rvDoubts: RecyclerView
 
-    private val doubtList =
-        ArrayList<DoubtModel>()
+    private lateinit var menu: ImageView
+
+    private val doubtList = ArrayList<DoubtModel>()
 
     private lateinit var adapter: DoubtAdapter
 
@@ -32,63 +35,67 @@ class DoubtsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val view =
-            inflater.inflate(
-                R.layout.fragment_doubts,
-                container,
-                false
-            )
+        val view = inflater.inflate(
+            R.layout.fragment_doubts,
+            container,
+            false
+        )
 
-        etTitle =
-            view.findViewById(R.id.etTitle)
+        // Drawer Menu
+        menu = view.findViewById(R.id.btnMenu)
 
-        etDescription =
-            view.findViewById(R.id.etDescription)
+        menu.setOnClickListener {
+            (activity as MainActivity).openDrawer()
+        }
 
-        btnSubmit =
-            view.findViewById(R.id.btnSubmitDoubt)
+        etTitle = view.findViewById(R.id.etTitle)
+        etDescription = view.findViewById(R.id.etDescription)
+        btnSubmit = view.findViewById(R.id.btnSubmitDoubt)
+        rvDoubts = view.findViewById(R.id.rvDoubts)
 
-        rvDoubts =
-            view.findViewById(R.id.rvDoubts)
-
-        adapter =
-            DoubtAdapter(doubtList)
+        adapter = DoubtAdapter(doubtList)
 
         rvDoubts.layoutManager =
             LinearLayoutManager(requireContext())
 
-        rvDoubts.adapter =
-            adapter
+        rvDoubts.adapter = adapter
 
         btnSubmit.setOnClickListener {
 
-            val title =
-                etTitle.text.toString()
+            val title = etTitle.text.toString().trim()
+            val description = etDescription.text.toString().trim()
 
-            val description =
-                etDescription.text.toString()
-
-            if(title.isNotEmpty() &&
-                description.isNotEmpty()){
-
-                doubtList.add(
-                    DoubtModel(
-                        title,
-                        description
-                    )
-                )
-
-                adapter.notifyDataSetChanged()
-
-                etTitle.text?.clear()
-                etDescription.text?.clear()
-
-                Toast.makeText(
-                    requireContext(),
-                    "Doubt Submitted",
-                    Toast.LENGTH_SHORT
-                ).show()
+            if (title.isEmpty()) {
+                etTitle.error = "Enter doubt title"
+                etTitle.requestFocus()
+                return@setOnClickListener
             }
+
+            if (description.isEmpty()) {
+                etDescription.error = "Enter doubt description"
+                etDescription.requestFocus()
+                return@setOnClickListener
+            }
+
+            doubtList.add(
+                DoubtModel(
+                    title,
+                    description
+                )
+            )
+
+            adapter.notifyItemInserted(doubtList.size - 1)
+
+            rvDoubts.smoothScrollToPosition(doubtList.size - 1)
+
+            etTitle.text?.clear()
+            etDescription.text?.clear()
+
+            Toast.makeText(
+                requireContext(),
+                "Doubt Submitted Successfully",
+                Toast.LENGTH_SHORT
+            ).show()
         }
 
         return view

@@ -5,5 +5,8 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-    <style name="Theme.Edu" parent="Base.Theme.Edu" />
+    <style name="Theme.Edu" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your theme -->
+
+    </style>
 </resources>

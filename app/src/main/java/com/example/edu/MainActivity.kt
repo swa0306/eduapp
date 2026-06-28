@@ -58,13 +58,13 @@ class MainActivity : AppCompatActivity() {
                     openFragment(DoubtsFragment())
                 }
 
-               /* R.id.nav_profile -> {
+                R.id.nav_profile -> {
                     openFragment(ProfileFragment())
                 }
 
                 R.id.nav_settings -> {
                     openFragment(SettingsFragment())
-                }*/
+                }
             }
 
             drawerLayout.closeDrawer(GravityCompat.START)
@@ -83,6 +83,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.fragmentContainer,
                 fragment
             )
+            .addToBackStack(null)
             .commit()
     }
 }

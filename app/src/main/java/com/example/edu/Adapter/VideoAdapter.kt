@@ -11,11 +11,11 @@ import com.example.edu.models.VideoModel
 
 class VideoAdapter(
     private val list: ArrayList<VideoModel>,
-    private val onClick: (VideoModel) -> Unit
+    private val onVideoClick: (VideoModel) -> Unit
 ) : RecyclerView.Adapter<VideoAdapter.VideoViewHolder>() {
 
-    class VideoViewHolder(itemView: View)
-        : RecyclerView.ViewHolder(itemView) {
+    class VideoViewHolder(itemView: View) :
+        RecyclerView.ViewHolder(itemView) {
 
         val imgThumbnail: ImageView =
             itemView.findViewById(R.id.imgThumbnail)
@@ -32,17 +32,21 @@ class VideoAdapter(
         viewType: Int
     ): VideoViewHolder {
 
-        val view = LayoutInflater.from(parent.context)
-            .inflate(
-                R.layout.item_video,
-                parent,
-                false
-            )
+        val view =
+            LayoutInflater.from(parent.context)
+                .inflate(
+                    R.layout.tem_video,
+                    parent,
+                    false
+                )
 
         return VideoViewHolder(view)
     }
 
-    override fun getItemCount() = list.size
+    override fun getItemCount(): Int {
+
+        return list.size
+    }
 
     override fun onBindViewHolder(
         holder: VideoViewHolder,
@@ -62,7 +66,8 @@ class VideoAdapter(
         )
 
         holder.itemView.setOnClickListener {
-            onClick(model)
+
+            onVideoClick(model)
         }
     }
 }

@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.edu.MainActivity
 import com.example.edu.R
 import com.example.edu.adapters.McqAdapter
 import com.example.edu.models.McqModel
@@ -17,6 +19,7 @@ class McqFragment : Fragment() {
 
     private lateinit var rvMcq: RecyclerView
     private lateinit var btnSubmit: MaterialButton
+    private lateinit var btnMenu: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,18 +27,24 @@ class McqFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val view =
-            inflater.inflate(
-                R.layout.fragment_mcq,
-                container,
-                false
-            )
+        val view = inflater.inflate(
+            R.layout.fragment_mcq,
+            container,
+            false
+        )
 
-        rvMcq =
-            view.findViewById(R.id.rvMcq)
+        // Drawer Menu Button
+        btnMenu = view.findViewById(R.id.btnMenu)
 
-        btnSubmit =
-            view.findViewById(R.id.btnSubmit)
+        btnMenu.setOnClickListener {
+            (requireActivity() as MainActivity).openDrawer()
+        }
+
+        rvMcq = view.findViewById(R.id.rvMcq)
+        btnSubmit = view.findViewById(R.id.btnSubmit)
+
+        rvMcq.layoutManager =
+            LinearLayoutManager(requireContext())
 
         loadMcq()
 
@@ -43,9 +52,18 @@ class McqFragment : Fragment() {
 
             Toast.makeText(
                 requireContext(),
-                "MCQ Submitted",
+                "Test Submitted Successfully",
                 Toast.LENGTH_SHORT
             ).show()
+
+            // Next Phase:
+            // Replace with ResultFragment after MCQ evaluation
+            /*
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, ResultFragment())
+                .addToBackStack(null)
+                .commit()
+             */
         }
 
         return view
@@ -53,8 +71,7 @@ class McqFragment : Fragment() {
 
     private fun loadMcq() {
 
-        val mcqList =
-            ArrayList<McqModel>()
+        val mcqList = ArrayList<McqModel>()
 
         mcqList.add(
             McqModel(
@@ -69,19 +86,26 @@ class McqFragment : Fragment() {
 
         mcqList.add(
             McqModel(
-                "Which language is used in Android Studio?",
-                "Java",
-                "PHP",
+                "Which language is officially recommended for Android development?",
+                "Kotlin",
                 "Python",
+                "PHP",
                 "C",
                 1
             )
         )
 
-        rvMcq.layoutManager =
-            LinearLayoutManager(requireContext())
+        mcqList.add(
+            McqModel(
+                "Which database is used on Android?",
+                "SQLite",
+                "Oracle",
+                "MongoDB",
+                "Firebase",
+                1
+            )
+        )
 
-        rvMcq.adapter =
-            McqAdapter(mcqList)
+        rvMcq.adapter = McqAdapter(mcqList)
     }
 }

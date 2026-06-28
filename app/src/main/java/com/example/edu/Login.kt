@@ -1,6 +1,7 @@
 package com.example.edu
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.TextView
 import android.widget.Toast
@@ -16,16 +17,21 @@ class Login : AppCompatActivity() {
     private lateinit var email: TextInputEditText
     private lateinit var password: TextInputEditText
     private lateinit var loginButton: MaterialButton
+    private lateinit var goHome: TextView
+
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         enableEdgeToEdge()
-
         setContentView(R.layout.activity_login)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+            val systemBars = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars()
+            )
 
             v.setPadding(
                 systemBars.left,
@@ -40,6 +46,49 @@ class Login : AppCompatActivity() {
         email = findViewById(R.id.email)
         password = findViewById(R.id.password)
         loginButton = findViewById(R.id.mtbutton)
+        goHome = findViewById(R.id.ghome)
+
+        sharedPreferences =
+            getSharedPreferences(
+                "EduSphere",
+                MODE_PRIVATE
+            )
+
+        // Already logged in
+        if (sharedPreferences.getBoolean("isLoggedIn", false)) {
+
+            if (sharedPreferences.getBoolean("board_selected", false)) {
+
+                startActivity(
+                    Intent(
+                        this,
+                        MainActivity::class.java
+                    )
+                )
+
+            } else {
+
+                startActivity(
+                    Intent(
+                        this,
+                        SelectBoardActivity::class.java
+                    )
+                )
+            }
+
+            finish()
+            return
+        }
+
+        goHome.setOnClickListener {
+
+            startActivity(
+                Intent(
+                    this,
+                    MainActivity::class.java
+                )
+            )
+        }
 
         loginButton.setOnClickListener {
 
@@ -50,7 +99,6 @@ class Login : AppCompatActivity() {
 
                 email.error = "Enter Email"
                 email.requestFocus()
-
                 return@setOnClickListener
             }
 
@@ -58,13 +106,16 @@ class Login : AppCompatActivity() {
 
                 password.error = "Enter Password"
                 password.requestFocus()
-
                 return@setOnClickListener
             }
 
-            if (emailText == "admin@gmail.com"
-                && passwordText == "123456"
+            if (emailText == "admin@gmail.com" &&
+                passwordText == "123456"
             ) {
+
+                sharedPreferences.edit()
+                    .putBoolean("isLoggedIn", true)
+                    .apply()
 
                 Toast.makeText(
                     this,
@@ -74,8 +125,8 @@ class Login : AppCompatActivity() {
 
                 startActivity(
                     Intent(
-                        this@Login,
-                        MainActivity::class.java
+                        this,
+                        SelectBoardActivity::class.java
                     )
                 )
 
@@ -85,13 +136,13 @@ class Login : AppCompatActivity() {
 
                 Toast.makeText(
                     this,
-                    "Your a new member please singup first ",
+                    "New user? Please sign up first.",
                     Toast.LENGTH_SHORT
                 ).show()
 
                 startActivity(
                     Intent(
-                        this@Login,
+                        this,
                         Singup::class.java
                     )
                 )
